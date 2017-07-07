@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: uaa-service
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${random.string}
