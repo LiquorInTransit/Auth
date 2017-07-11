@@ -79,20 +79,20 @@
 
   - name: Send the deployment across to the new instance
     copy: 
-       src: target/positionreceiver-0.0.1-SNAPSHOT.war
+       src: target/LITAuth-0.0.1-SNAPSHOT.jar
        dest: /home/ec2-user/webapp/target/
        mode: 0700
 
   - name: Build a link to the executable so it becomes a service
     file:
-            src: /home/ec2-user/webapp/target/positionreceiver-0.0.1-SNAPSHOT.war
+            src: /home/ec2-user/webapp/target/LITAuth-0.0.1-SNAPSHOT.jar
             dest: /etc/init.d/microservice
             state: link
     become: true
 
-  - name: Install Config Server as a startup service
+  - name: Install microservice as a startup service
     service:
-            name: webapp
+            name: microservice
             state: started
             enabled: yes
     become: true
