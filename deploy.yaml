@@ -45,10 +45,10 @@
         region: "{{region}}"
         exact_count: 1 
         count_tag:
-          Name: Webserver
+          Name: AuthServer
           Deploy: New
         instance_tags:
-          Name: Webserver
+          Name: AuthServer
           Deploy: Blue
       register: ec2
 
@@ -85,12 +85,12 @@
   - name: Send the deployment across to the new instance
     copy: 
        src: target/LITAuth-0.0.1-SNAPSHOT.jar
-       dest: /home/ec2-user/webapp/target/
+       dest: /home/ec2-user/app/target/
        mode: 0700
 
   - name: Build a link to the executable so it becomes a service
     file:
-            src: /home/ec2-user/webapp/target/LITAuth-0.0.1-SNAPSHOT.jar
+            src: /home/ec2-user/app/target/LITAuth-0.0.1-SNAPSHOT.jar
             dest: /etc/init.d/microservice
             state: link
     become: true
@@ -116,7 +116,7 @@
     ec2_remote_facts:
        filters:
           "tag:Deploy": Blue
-          "tag:Name": Webserver
+          "tag:Name": AuthServer
           instance-state-name: running
        region: "{{ region }}"
     register: new_server
@@ -125,7 +125,7 @@
     ec2_remote_facts:
        filters:
           "tag:Deploy": Green
-          "tag:Name": Webserver
+          "tag:Name": AuthServer
           instance-state-name: running
        region: "{{ region }}"
     register: old_green
@@ -149,7 +149,7 @@
       exact_count: 0
       count_tag:
         Deploy: Green
-        Name: Webserver
+        Name: AuthServer
       region: "{{ region }}"
       image: notneeded
 
