@@ -1,2 +1,2 @@
 # Auth
-Authentication application
+Authentication application for LIT
