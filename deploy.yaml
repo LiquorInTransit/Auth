@@ -1,4 +1,4 @@
-#  Provisions a new Webserver
+#  Provisions a new AuthServer
 
 - hosts: localhost
   gather_facts: no
