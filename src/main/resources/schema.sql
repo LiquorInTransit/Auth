@@ -1,5 +1,5 @@
 create table USER (
-	rowid INTEGER PRIMARY KEY,
+	id INTEGER PRIMARY KEY,
 	fname VARCHAR(50),
 	lname VARCHAR(50),
 	email VARCHAR(50),

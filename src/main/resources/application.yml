@@ -1,9 +1,13 @@
 server:
-  port: 8080
-  context-path: /uaa
-  use-forward-headers: false
+  port: 5000
+  servlet:
+    contextPath: /uaa
+ # contextPath: /uaa
+ # use-forward-headers: false
 
 spring:
+  profiles:
+    active: test
   datasource:
     name: test
     url: jdbc:hsqldb:mem:test://localhost/test

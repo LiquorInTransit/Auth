@@ -11,14 +11,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.gazorpazorp.dao.UserDao;
 import com.gazorpazorp.model.User;
+import com.gazorpazorp.repository.UserRepository;
 
 
 @Service("LITUserDetailsService")
 public class LITUserDetailsService implements UserDetailsService {
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userDao;
 	
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 		User user = userDao.findByUsername(name);
