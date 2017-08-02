@@ -9,12 +9,21 @@ import javax.persistence.Table;
 @Table(name = "USER")
 public class User {
 	
+	private Long id;
 	private String username;
 	private String password;
 
 	public User() {}
 	
 	@Id
+	@Column(name = "id", length = 30)
+	public Long getId() {
+		return this.id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	@Column(name = "username", length = 30)
 	public String getUsername() {
 		return this.username;

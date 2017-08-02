@@ -3,10 +3,12 @@ package com.gazorpazorp.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +23,9 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 import com.gazorpazorp.service.LITUserDetailsService;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages="com.gazorpazorp")
+@EnableJpaRepositories("com.gazorpazorp.repository")
+@EntityScan(basePackages="com.gazorpazorp")
 public class LITAuthApplication {
 	
 	@Profile("!test")
@@ -55,8 +59,8 @@ public class LITAuthApplication {
 		@Autowired
 		AuthenticationManager authenticationManager;
 		
-		@Autowired
-		LITUserDetailsService userDetailsService;
+//		@Autowired
+//		LITUserDetailsService userDetailsService;
 		
 		//This can stay the way it is
 				@Override
@@ -82,8 +86,8 @@ public class LITAuthApplication {
 		public void configure (AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 			endpoints
 			.tokenStore(tokenStore)
-			.authenticationManager(authenticationManager)
-			.userDetailsService(userDetailsService);
+			.authenticationManager(authenticationManager);
+//			.userDetailsService(userDetailsService);
 		}
 		
 		
