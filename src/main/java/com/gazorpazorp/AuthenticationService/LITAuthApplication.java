@@ -16,18 +16,23 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -78,8 +83,8 @@ public class LITAuthApplication {
 			converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jwt"));
 			return converter;
 		}
-		@Autowired
-		TokenEnhancer customTokenEnhancer;
+//		@Autowired
+//		TokenEnhancer customTokenEnhancer;
 		@Bean
 		public TokenStore tokenStore() {
 			return new JwtTokenStore(accessTokenConverter());
@@ -123,29 +128,51 @@ public class LITAuthApplication {
 		@Override
 		public void configure (AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 			TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-			tokenEnhancerChain.setTokenEnhancers(Arrays.asList(customTokenEnhancer, accessTokenConverter()));
+			tokenEnhancerChain.setTokenEnhancers(Arrays.asList(/*customTokenEnhancer, */accessTokenConverter()));
 			
 			endpoints
 			.tokenStore(tokenStore())
 			//.accessTokenConverter(accessTokenConverter())
 			.tokenEnhancer(tokenEnhancerChain)
+			.exceptionTranslator(loggingExceptionTranslator())
 			.authenticationManager(authenticationManager);
 		}		
+		
+		@Bean
+	    public WebResponseExceptionTranslator loggingExceptionTranslator() {
+	        return new DefaultWebResponseExceptionTranslator() {
+	            @Override
+	            public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+	                // This is the line that prints the stack trace to the log. You can customise this to format the trace etc if you like
+	                e.printStackTrace();
+
+	                // Carry on handling the exception
+	                ResponseEntity<OAuth2Exception> responseEntity = super.translate(e);
+	                HttpHeaders headers = new HttpHeaders();
+	                headers.setAll(responseEntity.getHeaders().toSingleValueMap());
+	                OAuth2Exception excBody = responseEntity.getBody();
+	                return new ResponseEntity<>(excBody, headers, responseEntity.getStatusCode());
+	            }
+	        };
+	    }
 	}
 	
-	@Component
-	@Qualifier("customTokenEnhancer")
-	public static class CustomTokenEnhancer implements TokenEnhancer {
-		@Autowired
-		UserService userService;
-		@Override
-		public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-			Map<String, Object> additionalInfo = new HashMap<>();
-			additionalInfo.put("user_id", userService.getUserByUsername(authentication.getUserAuthentication().getName()).getId());
-			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-	        return accessToken;
-		}
-	}
+	
+	
+	
+//	@Component
+//	@Qualifier("customTokenEnhancer")
+//	public static class CustomTokenEnhancer implements TokenEnhancer {
+//		@Autowired
+//		UserService userService;
+//		@Override
+//		public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+//			Map<String, Object> additionalInfo = new HashMap<>();
+//			additionalInfo.put("user_id", userService.getUserByUsername(authentication.getUserAuthentication().getName()).getId());
+//			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+//	        return accessToken;
+//		}
+//	}
 
 
 

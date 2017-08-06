@@ -20,11 +20,13 @@ public class LITUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userDao;
 	
+	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 		User user = userDao.findByUsername(name);
 		if (user == null)
 			throw new UsernameNotFoundException("Username not found");
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getGrantedAuthorities(user));
+		System.out.println(user.getId());
+		return new org.springframework.security.core.userdetails.User(user.getId().toString(), user.getPassword(), getGrantedAuthorities(user));
 	}
 	private List<GrantedAuthority> getGrantedAuthorities(User user) {
 		List list = new ArrayList<GrantedAuthority>();

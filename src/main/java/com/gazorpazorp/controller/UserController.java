@@ -30,7 +30,7 @@ public class UserController {
 	public ResponseEntity me (Principal principal){
 		User user = null;
 		if (principal != null) {
-			user = userService.getUserByUsername(principal.getName());
+			user = userService.getUserById(principal.getName());
 		}
 		
 		return Optional.ofNullable(user)
