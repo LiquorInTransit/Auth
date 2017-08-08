@@ -173,11 +173,4 @@ public class LITAuthApplication {
 //	        return accessToken;
 //		}
 //	}
-
-
-
-	@EnableResourceServer
-	public static class ResourceServer {
-
-	}
 }

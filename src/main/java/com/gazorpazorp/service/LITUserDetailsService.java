@@ -25,7 +25,6 @@ public class LITUserDetailsService implements UserDetailsService {
 		User user = userDao.findByUsername(name);
 		if (user == null)
 			throw new UsernameNotFoundException("Username not found");
-		System.out.println(user.getId());
 		return new org.springframework.security.core.userdetails.User(user.getId().toString(), user.getPassword(), getGrantedAuthorities(user));
 	}
 	private List<GrantedAuthority> getGrantedAuthorities(User user) {

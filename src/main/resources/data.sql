@@ -1,1 +1,2 @@
 insert into USER (id, fname, lname, email, username, password, type) values (1, 'Chris', 'Peckover', 'cjpeckover@hotmail.ca', 'cjpeckover', '$2a$06$tRC3rmZvTdfpb0/Mqcp0FuR/v16iO1h1PUuDn8JjJ0rIaQxfRZI.i', 'ROLE_ADMIN');
+insert into USER (id, fname, lname, email, username, password, type) values (2, 'Dan', 'Dennis', 'dan@dennis.com', 'dandennis', '$2a$06$tRC3rmZvTdfpb0/Mqcp0FuR/v16iO1h1PUuDn8JjJ0rIaQxfRZI.i', 'ROLE_ADMIN');
