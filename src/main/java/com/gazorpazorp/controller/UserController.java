@@ -32,7 +32,7 @@ public class UserController {
 	public ResponseEntity me (Principal principal){
 		User user = null;
 		if (principal != null) {
-			user = userService.getUserById(principal.getName());
+			user = userService.getUserById(Long.parseLong(principal.getName()));
 		}
 		return Optional.ofNullable(user)
 				.map(a -> new ResponseEntity<User>(a, HttpStatus.OK))

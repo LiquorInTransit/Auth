@@ -5,5 +5,7 @@ create table USER (
 	email VARCHAR(50),
 	username VARCHAR(30),
 	password VARCHAR(60),
-	type VARCHAR(30)
+	enabled BOOLEAN,
+	non_expired BOOLEAN,
+	non_locked BOOLEAN
 );
