@@ -26,6 +26,8 @@ public class User {
 	public User() {}
 	
 	@Id
+	@GenericGenerator(name = "incrementGenerator", strategy = "org.hibernate.id.IncrementGenerator")
+	@GeneratedValue(generator="incrementGenerator")
 	@Column(name = "id", length = 30)
 	public Long getId() {
 		return this.id;
