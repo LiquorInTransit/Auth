@@ -110,7 +110,14 @@ public class LITAuthApplication {
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients
 			.inMemory()
-			.withClient("LITClient")
+			.withClient("LITMobileCustomerClient")
+			.authorizedGrantTypes("password", "refresh_token")
+			.authorities("ADMIN")
+			.scopes("read", "write")
+			.secret("LITSecret")
+			.accessTokenValiditySeconds(82000)
+			.and()
+			.withClient("LITMobileDriverClient")
 			.authorizedGrantTypes("password", "refresh_token")
 			.authorities("ADMIN")
 			.scopes("read", "write")
