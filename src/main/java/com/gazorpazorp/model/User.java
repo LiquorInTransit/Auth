@@ -44,7 +44,6 @@ public class User {
 		this.username = username;
 	}
 
-	@JsonIgnore
 	@Column(name = "password", length = 60)
 	public String getPassword() {
 		return this.password;
@@ -53,7 +52,6 @@ public class User {
 		this.password = password;
 	}
 
-	@JsonIgnore
 	@Column(name = "enabled")
 	public boolean isEnabled() {
 		return enabled;
@@ -62,7 +60,6 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	@JsonIgnore
 	@Column(name = "non_expired")
 	public boolean isAccountNonExpired() {
 		return accountNonExpired;
@@ -71,7 +68,6 @@ public class User {
 		this.accountNonExpired = accountNonExpired;
 	}
 
-	@JsonIgnore
 	@Column(name = "non_locked")
 	public boolean isAccountNonLocked() {
 		return accountNonLocked;
@@ -79,12 +75,15 @@ public class User {
 	public void setAccountNonLocked(boolean accountNonLocked) {
 		this.accountNonLocked = accountNonLocked;
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled
+				+ ", accountNonExpired=" + accountNonExpired + ", accountNonLocked=" + accountNonLocked + "]";
 	}
+	
+	
+	
+	
 	
 }
