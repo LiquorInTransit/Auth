@@ -14,24 +14,30 @@ import com.gazorpazorp.repository.UserRepository;
 public class UserService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository userRepo;
 	
 	public User getUserByUsername(String username) {
-		return userRepository.findByUsername(username);
+		return userRepo.findByUsername(username);
 	}
 	public User getUserById(Long id) {
-		return userRepository.findById(id).get();
+		return userRepo.findById(id).get();
 	}
 	
 	
 	public User create(User user) {
-		User existing = userRepository.findByUsername(user.getUsername());
+		User existing = userRepo.findByUsername(user.getUsername());
 		Assert.isNull(existing, "User already exists: " + user.getUsername());
 		
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		user.setAccountNonExpired(true);
+		user.setAccountNonLocked(true);
+		user.setEnabled(true);
 		
-		user =  userRepository.save(user);
-		System.out.println(user);
+		user =  userRepo.save(user);
 		return user;
+	}
+	
+	public void deleteById (Long id) {
+		userRepo.deleteById(id);
 	}
 }
