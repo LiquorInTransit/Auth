@@ -43,17 +43,17 @@ import com.gazorpazorp.service.LITUserDetailsService;
 @EntityScan(basePackages="com.gazorpazorp")
 public class LITAuthApplication {
 
-	@Profile("!test")
+	//@Profile("!test")
 	@Configuration
 	@EnableDiscoveryClient
 	public static class EurekaClientConfiguration {		
 	}
 	
-	@PostConstruct
-	public void getDbManager(){
-	   DatabaseManagerSwing.main(
-		new String[] { "--url", "jdbc:hsqldb:mem:test://localhost/test", "--user", "SA", "--password", ""});
-	}
+//	@PostConstruct
+//	public void getDbManager(){
+//	   DatabaseManagerSwing.main(
+//		new String[] { "--url", "jdbc:hsqldb:mem:test://localhost/test", "--user", "SA", "--password", ""});
+//	}
 
 
 	@Autowired
@@ -101,8 +101,6 @@ public class LITAuthApplication {
 		@Autowired
 		AuthenticationManager authenticationManager;
 
-		//		@Autowired
-		//		LITUserDetailsService userDetailsService;
 
 		//This can stay the way it is
 		@Override
@@ -175,11 +173,7 @@ public class LITAuthApplication {
 	            }
 	        };
 	    }
-	}
-	
-	
-	
-	
+	}	
 //	@Component
 //	@Qualifier("customTokenEnhancer")
 //	public static class CustomTokenEnhancer implements TokenEnhancer {

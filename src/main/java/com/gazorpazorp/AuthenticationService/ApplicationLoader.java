@@ -12,15 +12,8 @@ import com.gazorpazorp.repository.UserRepository;
 
 
 @Component
-public class ApplicationLoader implements CommandLineRunner{
-
-	@Autowired
-	UserRepository userDao;
-	
+public class ApplicationLoader implements CommandLineRunner{	
 	public void run(String... args) throws Exception {
 		
 	}
-	
-	
-	
 }

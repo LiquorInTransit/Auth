@@ -25,7 +25,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	//UserInfoUri
 	@GetMapping("/user")
 	public Principal user(Principal user) {
 		return user;
