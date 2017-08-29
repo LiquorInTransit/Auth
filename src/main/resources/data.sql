@@ -1,1 +1,1 @@
-insert into USER (id, fname, lname, email, username, password, enabled, non_expired, non_locked) values (1, 'Chris', 'Peckover', 'cjpeckover@hotmail.ca', 'cjpeckover', '$2a$06$tRC3rmZvTdfpb0/Mqcp0FuR/v16iO1h1PUuDn8JjJ0rIaQxfRZI.i', TRUE, TRUE, TRUE);
+insert into USER (id, first_name, last_name, email, username, password, enabled, non_expired, non_locked) values (1, 'Chris', 'Peckover', 'cjpeckover@hotmail.ca', 'cjpeckover', '$2a$06$tRC3rmZvTdfpb0/Mqcp0FuR/v16iO1h1PUuDn8JjJ0rIaQxfRZI.i', TRUE, TRUE, TRUE);
