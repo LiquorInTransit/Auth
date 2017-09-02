@@ -21,6 +21,7 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
+	private String roles;
 
 	//Revocation details
 	private boolean enabled;
@@ -78,6 +79,15 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@Column(name = "roles", length = 50)
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 
 	@Column(name = "enabled")

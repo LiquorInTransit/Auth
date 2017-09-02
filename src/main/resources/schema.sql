@@ -5,6 +5,7 @@ create table USER (
 	last_name VARCHAR(50),
 	email VARCHAR(50),	
 	password VARCHAR(60),
+	roles VARCHAR(50),
 	enabled BOOLEAN,
 	non_expired BOOLEAN,
 	non_locked BOOLEAN
