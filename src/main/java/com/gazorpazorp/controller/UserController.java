@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,5 +56,13 @@ public class UserController {
 	public ResponseEntity deleteUserByUserId(@PathVariable Long id) {
 		userService.deleteById(id);
 		return new ResponseEntity(HttpStatus.OK);
+	}
+	
+	@PreAuthorize("#oauth2.hasScope('system')")
+	@GetMapping("/users/{id}")
+	public ResponseEntity getUserById(@PathVariable Long id) throws Exception {
+		return Optional.ofNullable(userService.getUserById(id))
+				.map(u -> new ResponseEntity<User>(u, HttpStatus.OK))
+				.orElseThrow(() -> new Exception("User not found"));
 	}
 }
