@@ -1,6 +1,6 @@
 node {
    stage('Preparation') {
-      git 'https://github.com/LiquorInTransit/Auth'
+      git 'https://github.com/LiquorInTransit/AuthenticationService.git'
    }
    stage('Build') {
         sh "mvn package"

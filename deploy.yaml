@@ -91,7 +91,7 @@
 
   - name: Build a link to the executable so it becomes a service
     file:
-            src: /home/ec2-user/app/target/LITAuth-0.0.1-SNAPSHOT.jar
+            src: /home/ec2-user/app/target/AuthenticationService-0.0.1-SNAPSHOT.jar
             dest: /etc/init.d/microservice
             state: link
     become: true
