@@ -42,7 +42,7 @@ import com.gazorpazorp.service.LITUserDetailsService;
 @SpringBootApplication(scanBasePackages="com.gazorpazorp")
 @EnableJpaRepositories("com.gazorpazorp.repository")
 @EntityScan(basePackages="com.gazorpazorp")
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 public class LITAuthApplication {
 
 	//@Profile("!test")
