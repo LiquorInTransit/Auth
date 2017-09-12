@@ -6,20 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.commons.util.InetUtils;
+import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
@@ -35,9 +34,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.gazorpazorp.service.LITUserDetailsService;
+import com.netflix.appinfo.AmazonInfo;
 
 @SpringBootApplication(scanBasePackages="com.gazorpazorp")
 @EnableJpaRepositories("com.gazorpazorp.repository")
@@ -190,4 +189,17 @@ public class LITAuthApplication {
 //	        return accessToken;
 //		}
 //	}
+	
+	@Bean
+	@Profile("!dev")
+	public EurekaInstanceConfigBean eurekaInstanceConfigBean(InetUtils utils) 
+	{
+		EurekaInstanceConfigBean instance = new EurekaInstanceConfigBean(utils);
+		AmazonInfo info = AmazonInfo.Builder.newBuilder().autoBuild("eureka");
+		instance.setHostname(info.get(AmazonInfo.MetaDataKey.publicHostname));
+		instance.setIpAddress(info.get(AmazonInfo.MetaDataKey.publicIpv4));
+		instance.setDataCenterInfo(info);
+		instance.setNonSecurePort(8080);
+		return instance;
+	}
 }
