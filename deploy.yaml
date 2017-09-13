@@ -1,4 +1,4 @@
-#  Provisions a new AuthServer
+#  Provisions a new uaa-service
 #  WOW, tha's pretty neat!
 
 - hosts: localhost
@@ -46,10 +46,10 @@
         region: "{{region}}"
         exact_count: 1 
         count_tag:
-          Name: AuthServer
+          Name: uaa-service
           Deploy: New
         instance_tags:
-          Name: AuthServer
+          Name: uaa-service
           Deploy: Blue
       register: ec2
 
@@ -117,7 +117,7 @@
     ec2_remote_facts:
        filters:
           "tag:Deploy": Blue
-          "tag:Name": AuthServer
+          "tag:Name": uaa-service
           instance-state-name: running
        region: "{{ region }}"
     register: new_server
@@ -126,7 +126,7 @@
     ec2_remote_facts:
        filters:
           "tag:Deploy": Green
-          "tag:Name": AuthServer
+          "tag:Name": uaa-service
           instance-state-name: running
        region: "{{ region }}"
     register: old_green
@@ -150,7 +150,7 @@
       exact_count: 0
       count_tag:
         Deploy: Green
-        Name: AuthServer
+        Name: uaa-service
       region: "{{ region }}"
       image: notneeded
 
