@@ -45,6 +45,7 @@ public class UserController {
 				.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 	}
 	
+	@PreAuthorize("#oauth2.hasScope('system')")
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody User user) throws Exception{
 		return Optional.ofNullable(userService.create(user))
@@ -52,6 +53,7 @@ public class UserController {
 				.orElseThrow(() -> new Exception("An error occured creating user"));
 	}
 	
+	@PreAuthorize("#oauth2.hasScope('system')")
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity deleteUserByUserId(@PathVariable Long id) {
 		userService.deleteById(id);
