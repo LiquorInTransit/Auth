@@ -65,9 +65,9 @@
       with_items: "{{ec2.instances}}"
 
 - hosts: tag_Deploy_Blue, ec2hosts
-  tasks:
   vars_files:
     - NGINXConfig/nginx_vars.yml
+  tasks:
   - name: upgrade all packages
     yum: name=* state=latest
     become: true
