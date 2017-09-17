@@ -8,12 +8,13 @@
      keypair_name: lit-backend-keypair
      instance_type: t2.nano
      image_name: ami-8a7859ef
+     live_ip_address: 18.221.100.47
   
   tasks:
     - name: Setup Global Vars
       set_fact:
         region: "{{ region }}"
-#        live_ip_address: "{{ live_ip_address }}"
+        live_ip_address: "{{ live_ip_address }}"
         
     - name: Setup security group
       ec2_group:
@@ -126,19 +127,21 @@
        region: "{{ region }}"
     register: old_green
 
-#  - name: Deallocate the EIP
-#    ec2_eip:
-#       device_id: "{{ old_green.instances[0].id }}"
-#       ip: "{{ live_ip_address }}"
-#       state: absent
-#       region: "{{ region }}"
-#    when: old_green.instances[0].id is defined
+  - name: Deallocate the EIP
+    ec2_eip:
+       device_id: "{{ old_green.instances[0].id }}"
+       ip: "{{ live_ip_address }}"
+       state: absent
+       region: "{{ region }}"
+    when: 
+      - old_green.instances[0] is defined
+      - old_green.instances[0].id is defined
 
-#  - name: Allocate the EIP to the new instance
-#    ec2_eip:
-#      device_id: "{{ new_server.instances[0].id }}"
-#      ip: "{{ live_ip_address }}"
-#      region: "{{ region }}"
+  - name: Allocate the EIP to the new instance
+    ec2_eip:
+      device_id: "{{ new_server.instances[0].id }}"
+      ip: "{{ live_ip_address }}"
+      region: "{{ region }}"
 
   - name: Terminate the existing Green Server.
     ec2:
