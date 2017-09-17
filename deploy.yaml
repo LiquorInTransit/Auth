@@ -18,7 +18,7 @@
         
     - name: Setup security group
       ec2_group:
-        name: uaa-http-server
+        name: http-gateway-server
         description: Security rules for HTTP Server
         region: "{{ region }}"
         rules_egress:
@@ -27,15 +27,19 @@
              cidr_ip: 0.0.0.0/0
         rules:
            - proto: tcp
+             ports: 8080
+             cidr_ip: 172.31.0.0/16
+           
+           - proto: tcp
              ports:
-               - 8080
+               - 80
                - 22
              cidr_ip: 0.0.0.0/0
 
     - name: Provision an instance
       ec2:
         key_name: "{{ keypair_name }}"
-        group: uaa-http-server
+        group: http-gateway-server
         instance_type: "{{ instance_type }}"
         image: "{{ image_name }}"
         wait: true
@@ -104,6 +108,49 @@
             host: localhost
             port: 8080
             state: started
+            
+#Once the server is responding, install nGinx and configure proxy
+  - name: Add the Nginx Repository
+    yum:
+       name: epel-release
+       state: latest
+    become: true
+  - name: Install Nginx
+    yum:
+       name: nginx
+       state: latest
+    become: true
+  - name: Create sites-available folder
+    file:
+      path: /etc/nginx/sites-available
+      state: directory
+    become: true
+  - name: Create sites-enabled folder
+    file:
+      path: /etc/nginx/sites-enabled
+      state: directory
+    become: true
+  - name: Replace NGinx config with local config file
+    copy:
+      src: NGINXConfig/nginx.conf
+      dest: /etc/nginx/
+      mode: 0700
+    become: true    
+  - name: copy template
+    template:
+      src: NGINXConfig/service.conf.j2
+      dest: /etc/nginx/sites-available/{{service}}
+      mode: 0700
+    become: true
+  - name: make site available
+    file: 
+      src: /etc/nginx/sites-available/{{ service }} 
+      dest: /etc/nginx/sites-enabled/default
+      state: link
+  - name: restart nginx
+    service: 
+      name: nginx
+      state: restarted
             
 # Series of steps to implement a Green -> Blue switchover
 
