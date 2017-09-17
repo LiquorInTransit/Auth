@@ -66,6 +66,8 @@
 
 - hosts: tag_Deploy_Blue, ec2hosts
   tasks:
+  vars_files:
+    - NGINXConfig/nginx_vars.yml
   - name: upgrade all packages
     yum: name=* state=latest
     become: true
