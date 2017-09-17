@@ -18,7 +18,7 @@
         
     - name: Setup security group
       ec2_group:
-        name: http-gateway-server
+        name: uaa-http-server
         description: Security rules for HTTP Server
         region: "{{ region }}"
         rules_egress:
@@ -27,19 +27,15 @@
              cidr_ip: 0.0.0.0/0
         rules:
            - proto: tcp
-             ports: 8080
-             cidr_ip: 172.31.0.0/16
-           
-           - proto: tcp
              ports:
-               - 80
+               - 8080
                - 22
              cidr_ip: 0.0.0.0/0
 
     - name: Provision an instance
       ec2:
         key_name: "{{ keypair_name }}"
-        group: http-gateway-server
+        group: uaa-http-server
         instance_type: "{{ instance_type }}"
         image: "{{ image_name }}"
         wait: true
