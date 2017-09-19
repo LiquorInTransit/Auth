@@ -8,8 +8,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "USER")
 public class User {
@@ -41,7 +39,7 @@ public class User {
 		this.id = id;
 	}
 	
-	@Column(name = "username", length = 30)
+	@Column(name = "username", length = 30, unique=true)
 	public String getUsername() {
 		return this.username;
 	}
