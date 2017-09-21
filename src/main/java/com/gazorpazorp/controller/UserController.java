@@ -11,42 +11,42 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gazorpazorp.model.User;
 import com.gazorpazorp.service.UserService;
 
 @RestController
-@RequestMapping("/uaa")
+@RequestMapping("/api/users")
 @EnableResourceServer
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/user")
-	public Principal user(Principal user) {
-		return user;
-	}
+//	@GetMapping("/user")
+//	public Principal user(Principal user) {
+//		return user;
+//	}
 	
 	//Current user mapping (for fetches and business logic)
-	@GetMapping("/me")
-	public ResponseEntity me (Principal principal){
-		User user = null;
-		if (principal != null) {
-			user = userService.getUserById(Long.parseLong(principal.getName()));
-		}
-		return Optional.ofNullable(user)
-				.map(a -> new ResponseEntity<User>(a, HttpStatus.OK))
-				.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+	
+	@PreAuthorize("#oauth2.hasAnyScope('customer', 'driver')")
+	@PatchMapping
+	public ResponseEntity updateUserById(Principal principal, @RequestParam(name="email", required=false)String email, @RequestParam(name="phone", required=false)String phone, @RequestParam(name="password", required=false)String password) throws Exception {
+		return Optional.ofNullable(userService.updateUser(Long.parseLong(principal.getName()), email, phone, password))
+				.map(u -> new ResponseEntity(HttpStatus.OK))
+				.orElseThrow(() -> new Exception("User not updated"));
 	}
 	
 	@PreAuthorize("#oauth2.hasScope('system')")
-	@PostMapping("/create")
+	@PostMapping
 	public ResponseEntity<User> createUser(@RequestBody User user) throws Exception{
 		return Optional.ofNullable(userService.create(user))
 				.map(u -> new ResponseEntity<User>(u, HttpStatus.OK))
@@ -54,14 +54,7 @@ public class UserController {
 	}
 	
 	@PreAuthorize("#oauth2.hasScope('system')")
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity deleteUserByUserId(@PathVariable Long id) {
-		userService.deleteById(id);
-		return new ResponseEntity(HttpStatus.OK);
-	}
-	
-	@PreAuthorize("#oauth2.hasScope('system')")
-	@GetMapping("/users/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity getUserById(@PathVariable Long id) throws Exception {
 		return Optional.ofNullable(userService.getUserById(id))
 				.map(u -> new ResponseEntity<User>(u, HttpStatus.OK))

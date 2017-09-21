@@ -1,6 +1,6 @@
 create table USER (
 	id INTEGER PRIMARY KEY,
-	username UNIQUE VARCHAR(30),
+	username VARCHAR(30),
 	first_name VARCHAR(50),
 	last_name VARCHAR(50),
 	email VARCHAR(50),	
