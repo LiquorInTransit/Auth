@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.gazorpazorp.model.User;
+import com.gazorpazorp.model.dto.UserInfoUpdateDto;
 import com.gazorpazorp.repository.UserRepository;
 
 @Service
@@ -21,11 +22,12 @@ public class UserService {
 	public User getUserById(Long id) {
 		return userRepo.findById(id).get();
 	}
-	public User updateUser(Long id, String email, String phone, String password) {
+	public User updateUser(Long id, UserInfoUpdateDto userInfo) {
 			User user = getUserById(id);
-			if (email != null) user.setEmail(email);
-			//if (phone != null) user.setPhoneNumber(phone);TODO: add a phone number option. verify correct phone format and is not taken.
-			if (password != null) user.setPassword(new BCryptPasswordEncoder().encode(password)); //consider only accepting a pre-encoded password
+//			if (email != null) user.setEmail(email);
+//			//if (phone != null) user.setPhoneNumber(phone);TODO: add a phone number option. verify correct phone format and is not taken.
+//			if (password != null) user.setPassword(new BCryptPasswordEncoder().encode(password)); //consider only accepting a pre-encoded password
+			userInfo.incorporate(user);
 			return userRepo.save(user);
 	}
 	

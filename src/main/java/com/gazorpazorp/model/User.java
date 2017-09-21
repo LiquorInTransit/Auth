@@ -14,6 +14,7 @@ public class User {
 	//Sign in details
 	private Long id;
 	
+	//TODO:remove username
 	private String username;
 	private String firstName;
 	private String lastName;
