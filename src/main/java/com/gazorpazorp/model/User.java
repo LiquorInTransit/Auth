@@ -15,7 +15,7 @@ public class User {
 	private Long id;
 	
 	//TODO:remove username
-	private String username;
+//	private String username;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -40,13 +40,13 @@ public class User {
 		this.id = id;
 	}
 	
-	@Column(name = "username", length = 30, unique=true)
-	public String getUsername() {
-		return this.username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
+//	@Column(name = "username", length = 30, unique=true)
+//	public String getUsername() {
+//		return this.username;
+//	}
+//	public void setUsername(String username) {
+//		this.username = username;
+//	}
 	
 	@Column(name = "first_name")
 	public String getFirstName() {
@@ -115,7 +115,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled
+		return "User [id=" + id + ", password=" + password + ", enabled=" + enabled
 				+ ", accountNonExpired=" + accountNonExpired + ", accountNonLocked=" + accountNonLocked + "]";
 	}
 	

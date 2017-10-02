@@ -7,5 +7,5 @@ import com.gazorpazorp.model.User;
 
 
 public interface UserRepository extends CrudRepository<User, Long>	{
-	User findByUsername(@Param("username") String username);
+	User findByEmail(@Param("email") String email);
 }

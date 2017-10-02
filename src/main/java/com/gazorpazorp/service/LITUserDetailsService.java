@@ -22,10 +22,10 @@ public class LITUserDetailsService implements UserDetailsService {
 	private UserRepository userDao;
 	
 	@Override
-	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(name);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userDao.findByEmail(email);
 		if (user == null)
-			throw new UsernameNotFoundException("Username not found");
+			throw new UsernameNotFoundException("User not found");
 		return new org.springframework.security.core.userdetails.User(user.getId().toString(), user.getPassword(), user.isEnabled(), user.isAccountNonExpired(), true, user.isAccountNonLocked(), getGrantedAuthorities(user));
 	}
 	private List<GrantedAuthority> getGrantedAuthorities(User user) {
