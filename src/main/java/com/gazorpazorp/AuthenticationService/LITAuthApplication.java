@@ -124,14 +124,14 @@ public class LITAuthApplication {
 			.authorities("ADMIN")
 			.scopes("customer", "orders")
 			.secret("LITSecret")
-			.accessTokenValiditySeconds(82000)
+			.accessTokenValiditySeconds(82000000)
 			.and()
 			.withClient("LITDriverClient")
 			.authorizedGrantTypes("password", "refresh_token")
 			.authorities("ADMIN")
 			.scopes("driver")
 			.secret("LITSecret")
-			.accessTokenValiditySeconds(82000)
+			.accessTokenValiditySeconds(82000000)
 			.and()
 			.withClient("LITSystem")
 			.authorizedGrantTypes("client_credentials")
@@ -152,7 +152,7 @@ public class LITAuthApplication {
 			.authorities("ADMIN")
 			.scopes("system", "signup")
 			.secret("LITSystem")
-			.accessTokenValiditySeconds(180);
+			.accessTokenValiditySeconds(1000);
 		}		
 
 		@Override

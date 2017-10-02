@@ -36,7 +36,7 @@ public class UserService {
 	public User create(User user) {
 		User existing = userRepo.findByEmail(user.getEmail());
 		Assert.isNull(existing, "User already exists: " + user.getEmail());
-		
+		String oldPassword = user.getPassword();
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
@@ -44,6 +44,7 @@ public class UserService {
 		user.setRoles("CUSTOMER");
 		
 		user =  userRepo.save(user);
+		user.setPassword(oldPassword);
 		return user;
 	}	
 }
