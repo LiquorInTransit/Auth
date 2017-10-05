@@ -36,7 +36,7 @@ public class UserController {
 	//Current user mapping (for fetches and business logic)
 	
 	@PreAuthorize("#oauth2.hasAnyScope('customer', 'driver')")
-	@PatchMapping
+	@PatchMapping("/me")
 	public ResponseEntity updateUserById(Principal principal, @RequestBody UserInfoUpdateDto newInfo/*@RequestParam(name="email", required=false)String email, @RequestParam(name="phone", required=false)String phone, @RequestParam(name="password", required=false)String password*/) throws Exception {
 		return Optional.ofNullable(userService.updateUser(Long.parseLong(principal.getName()), newInfo))
 				.map(u -> new ResponseEntity(HttpStatus.OK))

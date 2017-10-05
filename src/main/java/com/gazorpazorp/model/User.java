@@ -19,6 +19,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String phone;
 	private String password;
 	private String roles;
 
@@ -70,6 +71,13 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	@Column(name = "password", length = 60)
