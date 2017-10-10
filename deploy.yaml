@@ -68,7 +68,7 @@
   sudo: yes
   vars_files:
     - NGINXConfig/nginx_vars.yml
-#  tasks:
+  tasks:
 #  - name: upgrade all packages
 #    yum: name=* state=latest
 #    become: true
