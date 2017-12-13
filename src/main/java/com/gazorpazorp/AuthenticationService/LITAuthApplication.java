@@ -105,15 +105,14 @@ public class LITAuthApplication {
 
 
 		//This can stay the way it is
-		/*
-		 * (non-Javadoc)
+		/* (non-Javadoc)
 		 * scope definitions:
 		 * cutomer: only for customers. doubles as 'customer profile'
 		 * driver: only for drivers. doubles as 'driver profile'
 		 * orders: allowed to view orders (technically customer only)
 		 * signup: allowed to make signup requests
 		 * system: only allowed for the system. no user/clients allowed
-		 */
+		*/
 		
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
