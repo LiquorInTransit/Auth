@@ -41,7 +41,7 @@ public class UserService {
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
 		user.setEnabled(true);
-		user.setRoles("CUSTOMER");
+		user.setRoles("CUSTOMER,DRIVER");
 		
 		user =  userRepo.save(user);
 		user.setPassword(oldPassword);
