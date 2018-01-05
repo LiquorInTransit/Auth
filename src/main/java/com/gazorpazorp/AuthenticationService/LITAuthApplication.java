@@ -149,7 +149,7 @@ public class LITAuthApplication {
 			.withClient("LITSignUpClient")
 			.authorizedGrantTypes("client_credentials")
 			.authorities("ADMIN")
-			.scopes("system", "signup")
+			.scopes(/*"system", */"signup")
 			.secret("LITSystem")
 			.accessTokenValiditySeconds(1000);
 		}		

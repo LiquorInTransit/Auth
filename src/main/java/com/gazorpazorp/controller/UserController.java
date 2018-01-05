@@ -43,12 +43,12 @@ public class UserController {
 				.orElseThrow(() -> new Exception("User not updated"));
 	}
 	
-	@PreAuthorize("#oauth2.hasScope('system')")
+	@PreAuthorize("#oauth2.hasScope('signup')")
 	@PostMapping
 	public ResponseEntity<User> createUser(@RequestBody User user) throws Exception{
 		return Optional.ofNullable(userService.create(user))
 				.map(u -> new ResponseEntity<User>(u, HttpStatus.OK))
-				.orElseThrow(() -> new Exception("An error occured creating user"));
+				.orElse/*Throw*/(null/*() -> new Exception("An error occured creating user")*/);
 	}
 	
 	@PreAuthorize("#oauth2.hasScope('system')")
